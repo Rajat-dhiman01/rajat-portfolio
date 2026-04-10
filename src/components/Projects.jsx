@@ -4,39 +4,11 @@ import { ArrowUpRight } from "lucide-react";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
 import { projects } from "@/data/projects";
+import { Stars } from "@/components/ui/stars";
+import { useCardGlow } from "@/lib/useCardGlow";
 
 // ─── Custom border-trace glow (replaces GlowingEffect) ───────────────────────
-//
-// HOW IT WORKS:
-// A 1px-thick conic-gradient ring sits on top of the card border.
-// The gradient arc rotates to follow the cursor angle.
-// It is masked with CSS mask-composite to paint ONLY the 1px border track -
-// zero bleed into card interior, zero impact on readability.
-//
-function useCardGlow(cardRef) {
-  const glowRef = useRef(null);
-
-  const onMouseMove = useCallback((e) => {
-    const card = cardRef.current;
-    const glow = glowRef.current;
-    if (!card || !glow) return;
-
-    const { left, top, width, height } = card.getBoundingClientRect();
-    const cx = left + width / 2;
-    const cy = top + height / 2;
-    const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI) + 90;
-
-    glow.style.setProperty("--ga", `${angle}deg`);
-    glow.style.setProperty("--go", "1");
-  }, []);
-
-  const onMouseLeave = useCallback(() => {
-    const glow = glowRef.current;
-    if (glow) glow.style.setProperty("--go", "0");
-  }, []);
-
-  return { glowRef, onMouseMove, onMouseLeave };
-}
+// Extracted to src/lib/useCardGlow.js
 
 // ─── Logos ────────────────────────────────────────────────────────────────────
 
@@ -171,8 +143,8 @@ function ProjectCard({ project, index }) {
           "--ga": "0deg",
           "--go": "0",
           position: "absolute",
-          inset: "-1px",
-          borderRadius: "17px",
+          inset: "0",
+          borderRadius: "16px",
           padding: "1px",
           // Arc: bright center (~60deg wide), fades to nothing.
           // Conic starts at --ga so the bright spot follows the cursor angle.
@@ -194,6 +166,7 @@ function ProjectCard({ project, index }) {
           {/* Card shell */}
           <div
             style={{
+              width: "100%",
               background: "var(--bg3)",
               border: "1px solid var(--border)",
               borderRadius: "16px",
@@ -276,8 +249,9 @@ function ProjectCard({ project, index }) {
               <p style={{
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: "0.58rem",
-                letterSpacing: "0.07em",
-                color: "var(--muted)",
+                letterSpacing: "0.1em",
+                color: "#a1a1aa",
+                fontWeight: 500,
                 textTransform: "uppercase",
                 marginBottom: "0.875rem",
               }}>
@@ -289,8 +263,8 @@ function ProjectCard({ project, index }) {
             <CardItem translateZ={11} style={{ width: "100%", flex: 1 }}>
               <p style={{
                 fontFamily: "'DM Sans', sans-serif",
-                fontSize: "0.875rem",
-                color: "var(--muted)",
+                fontSize: "0.9rem",
+                color: "#e2e8f0",
                 lineHeight: 1.75,
                 marginBottom: "1.375rem",
               }}>
@@ -314,11 +288,12 @@ function ProjectCard({ project, index }) {
                       fontSize: "0.54rem",
                       letterSpacing: "0.07em",
                       textTransform: "uppercase",
-                      padding: "3px 8px",
-                      border: "1px solid var(--border)",
-                      borderRadius: "4px",
-                      color: "var(--muted)",
-                      background: "rgba(255,255,255,0.018)",
+                      padding: "4px 10px",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                      borderRadius: "6px",
+                      color: "#f8fafc",
+                      fontWeight: 500,
+                      background: "rgba(255,255,255,0.04)",
                     }}
                   >
                     {tag}
@@ -351,7 +326,8 @@ function ProjectCard({ project, index }) {
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: "0.57rem",
                   letterSpacing: "0.1em",
-                  color: "var(--muted)",
+                  color: "#d4d4d8",
+                  fontWeight: 500,
                 }}>
                   Live at {project.statusUrl}
                 </span>
@@ -389,6 +365,10 @@ export default function Projects() {
         zIndex: 1,
       }}
     >
+      {/* Stars background */}
+      <div className="absolute inset-0 z-0" aria-hidden="true" style={{ overflow: "hidden" }}>
+        <Stars count={80} />
+      </div>
       <div ref={headerRef}>
 
         <motion.p

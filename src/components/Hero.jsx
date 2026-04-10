@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Meteors } from "./ui/meteors";
+import { Stars } from "./ui/stars";
 
 const roles = [
   "Full-Stack + AI Engineer",
@@ -57,6 +58,7 @@ export default function Hero() {
       aria-label="Hero section"
     >
       <div className="absolute inset-0 z-0">
+        <Stars count={80} />
         <Meteors count={22} />
       </div>
 

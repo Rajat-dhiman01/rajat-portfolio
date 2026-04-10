@@ -3,6 +3,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { SiGithub, SiX, SiLeetcode } from "@icons-pack/react-simple-icons";
 import { Mail, ArrowUpRight, CheckCircle, AlertCircle, Loader } from "lucide-react";
 import { socials } from "@/data/socials";
+import { Stars } from "@/components/ui/stars";
 
 const SOCIAL_LINKS = [
   {
@@ -162,6 +163,10 @@ export default function Contact() {
         zIndex: 1,
       }}
     >
+      {/* Stars background */}
+      <div className="absolute inset-0 z-0" aria-hidden="true" style={{ overflow: "hidden" }}>
+        <Stars count={80} />
+      </div>
       <div ref={headerRef}>
         <motion.p
           {...fadeUp(0)}

@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { Meteors } from "@/components/ui/meteors";
+import { Stars } from "@/components/ui/stars";
 
 const stats = [
   { value: "3+",  label: "Live Products"   },
@@ -33,6 +34,7 @@ export default function About() {
     >
       {/* Meteors background */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
+        <Stars count={80} />
         <Meteors count={12} />
       </div>
 
@@ -42,7 +44,7 @@ export default function About() {
       >
         <div className="about-grid">
 
-          {/* ── LEFT — photo ring ── */}
+          {/* ── LEFT - photo ring ── */}
           <motion.div {...fadeUp(0.1)} className="flex justify-center items-center">
             <div className="relative flex items-center justify-center" style={{ width: 260, height: 260 }}>
 
@@ -89,17 +91,17 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* ── RIGHT — text + stats ── */}
+          {/* ── RIGHT - text + stats ── */}
           <div>
             <motion.p {...fadeUp(0)} style={{
               fontFamily:    "'JetBrains Mono', monospace",
               fontSize:      "0.6rem",
               letterSpacing: "0.2em",
-              color:         "var(--muted)",
+              color:         "var(--foreground)",
               textTransform: "uppercase",
               marginBottom:  "1rem",
             }}>
-              // 01 — About Me
+             About Me
             </motion.p>
 
             <motion.h2 {...fadeUp(0.1)} style={{
@@ -123,8 +125,8 @@ export default function About() {
               color:        "var(--muted)",
               marginBottom: "1.25rem",
             }}>
-              Final year <strong style={{ color: "#fff" }}>ECE student</strong> — building
-              production-grade software that solves real problems. I don't just code — I
+              Final year <strong style={{ color: "#fff" }}>ECE student</strong> - building
+              production-grade software that solves real problems. I don't just code - I
               architect, deploy, and iterate on{" "}
               <strong style={{ color: "#fff" }}>live products</strong> used by real people.
             </motion.p>

@@ -45,17 +45,19 @@ export function CardContainer({ children, className, containerClassName }) {
   );
 }
 
-export function CardBody({ children, className }) {
+export function CardBody({ children, className, style, ...rest }) {
   return (
     <div
       className={cn("h-96 w-96 [transform-style:preserve-3d] [&>*]:[transform-style:preserve-3d]", className)}
+      style={style}
+      {...rest}
     >
       {children}
     </div>
   );
 }
 
-export function CardItem({ as: Tag = "div", children, className, translateX = 0, translateY = 0, translateZ = 0, rotateX = 0, rotateY = 0, rotateZ = 0, ...rest }) {
+export function CardItem({ as: Tag = "div", children, className, translateX = 0, translateY = 0, translateZ = 0, rotateX = 0, rotateY = 0, rotateZ = 0, style, ...rest }) {
   const ref = useRef(null);
   const [isMouseEntered] = useContext(MouseEnterContext);
 
@@ -67,7 +69,7 @@ export function CardItem({ as: Tag = "div", children, className, translateX = 0,
     <Tag
       ref={ref}
       className={cn("w-fit transition-all duration-200 ease-linear", className)}
-      style={{ transform }}
+      style={{ transform, ...style }}
       {...rest}
     >
       {children}

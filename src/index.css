@@ -101,3 +101,9 @@ body {
 .animate-meteor-effect {
   animation: meteor 5s linear infinite;
 }
+
+/* ─── Twinkle Animation ─────────────────────────── */
+@keyframes twinkle {
+  0% { opacity: 0.1; }
+  100% { opacity: var(--star-opacity, 0.6); }
+}

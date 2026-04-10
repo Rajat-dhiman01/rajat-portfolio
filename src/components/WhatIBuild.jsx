@@ -1,6 +1,8 @@
 import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { Meteors } from "@/components/ui/meteors";
+import { Stars } from "@/components/ui/stars";
+import { useCardGlow } from "@/lib/useCardGlow";
 
 // ─── EDITABLE CONFIG ──────────────────────────────────────────────────────────
 
@@ -10,29 +12,35 @@ const BUILDS = [
     label: "01",
     title: "Full-Stack SaaS",
     description:
-      "End-to-end product development — auth, APIs, databases, deployment. From idea to live product with real users and real traffic.",
+      "End-to-end product development - auth, APIs, databases, deployment. From idea to live product with real users and real traffic.",
   },
   {
     id: 2,
     label: "02",
     title: "AI / RAG Systems",
     description:
-      "Production-grade AI pipelines — vector search, hybrid retrieval, LLM integration, streaming responses and real-time UX.",
+      "Production-grade AI pipelines - vector search, hybrid retrieval, LLM integration, streaming responses and real-time UX.",
   },
   {
     id: 3,
     label: "03",
     title: "Production Deployment",
     description:
-      "Security hardening, SEO, rate limiting, custom domains, analytics, CI/CD — everything needed to ship, scale, and maintain.",
+      "Security hardening, SEO, rate limiting, custom domains, analytics, CI/CD - everything needed to ship, scale, and maintain.",
   },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
 
 function BuildCard({ item, index, inView }) {
+  const wrapRef = useRef(null);
+  const { glowRef, onMouseMove, onMouseLeave } = useCardGlow(wrapRef);
+
   return (
     <motion.div
+      ref={wrapRef}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
       initial={{ opacity: 0, y: 28 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{
@@ -40,21 +48,47 @@ function BuildCard({ item, index, inView }) {
         delay: 0.1 + index * 0.1,
         ease: [0.22, 1, 0.36, 1],
       }}
-      style={{
-        background: "var(--bg3)",
-        border: "1px solid var(--border)",
-        borderRadius: "16px",
-        padding: "clamp(1.5rem, 3vw, 2rem)",
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-        transition: "border-color 0.2s",
-        position: "relative",
-        zIndex: 1,
-      }}
-      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--border2)"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
+      style={{ position: "relative", borderRadius: "16px" }}
     >
+      {/* Border-trace glow */}
+      <div
+        ref={glowRef}
+        aria-hidden="true"
+        style={{
+          "--ga": "0deg",
+          "--go": "0",
+          position: "absolute",
+          inset: "0",
+          borderRadius: "16px",
+          padding: "1px",
+          backgroundImage: "conic-gradient(from var(--ga), transparent 0deg, rgba(255,255,255,0.0) 0deg, rgba(255,255,255,0.5) 30deg, rgba(255,255,255,0.15) 65deg, transparent 120deg, transparent 360deg)",
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMaskComposite: "destination-out",
+          maskComposite: "exclude",
+          opacity: "var(--go)",
+          transition: "opacity 0.3s ease",
+          pointerEvents: "none",
+          zIndex: 2,
+        }}
+      />
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          background: "var(--bg3)",
+          border: "1px solid var(--border)",
+          borderRadius: "16px",
+          padding: "clamp(1.5rem, 3vw, 2rem)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          transition: "border-color 0.2s",
+          position: "relative",
+          zIndex: 1,
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--border2)"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
+      >
       <span style={{
         fontFamily: "'JetBrains Mono', monospace",
         fontSize: "0.55rem",
@@ -87,6 +121,7 @@ function BuildCard({ item, index, inView }) {
       }}>
         {item.description}
       </p>
+      </div>
     </motion.div>
   );
 }
@@ -113,6 +148,7 @@ export default function WhatIBuild() {
     >
       {/* Meteors background */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
+        <Stars count={80} />
         <Meteors count={14} />
       </div>
 
@@ -131,7 +167,7 @@ export default function WhatIBuild() {
             marginBottom: "0.875rem",
           }}
         >
-          // 05 — Expertise
+          // 05 - Expertise
         </motion.p>
 
         <motion.h2

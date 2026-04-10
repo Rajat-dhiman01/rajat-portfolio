@@ -87,12 +87,13 @@ function SkillRow({ name, level, index, groupInView }) {
       <span
         style={{
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "0.52rem",
-          letterSpacing: "0.1em",
+          fontSize: "0.6rem",
+          letterSpacing: "0.12em",
           textTransform: "uppercase",
-          color: "var(--muted)",
+          color: "rgba(255, 255, 255, 0.65)",
+          fontWeight: 500,
           flexShrink: 0,
-          width: 60,
+          width: 70,
           textAlign: "right",
         }}
       >
@@ -118,13 +119,14 @@ function SkillGroup({ group, items, groupIndex }) {
         transition={{ duration: 0.45, delay: groupIndex * 0.05 }}
         style={{
           fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "0.58rem",
-          letterSpacing: "0.18em",
+          fontSize: "0.7rem",
+          fontWeight: 600,
+          letterSpacing: "0.2em",
           textTransform: "uppercase",
-          color: "var(--muted)",
-          marginBottom: "0.875rem",
+          color: "#ffffff",
+          marginBottom: "1rem",
           paddingBottom: "0.75rem",
-          borderBottom: "1px solid var(--border)",
+          borderBottom: "1px solid rgba(255,255,255,0.1)",
         }}
       >
         {group}
