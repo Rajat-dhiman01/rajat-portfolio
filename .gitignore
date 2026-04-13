@@ -1,4 +1,37 @@
+# ===========================
+# Dependencies
+# ===========================
+node_modules
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# ===========================
+# Build outputs
+# ===========================
+dist
+dist-ssr
+build
+out
+.output
+
+# ===========================
+# Environment variables — NEVER commit these
+# ===========================
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.staging
+.env.*.local
+
+# ===========================
 # Logs
+# ===========================
 logs
 *.log
 npm-debug.log*
@@ -6,22 +39,72 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.pnpm-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-.env
-PORTFOLIO_CONTEXT_session05.md
-.env.example
+# ===========================
+# Cache
+# ===========================
+.cache
+.parcel-cache
+.vite
+node_modules/.vite
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
 
+# ===========================
+# OS generated files
+# ===========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ===========================
 # Editor directories and files
+# ===========================
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.swp
+*.swo
+.project
+.classpath
+.settings/
+*.launch
+.history/
+
+# ===========================
+# Testing
+# ===========================
+coverage
+*.lcov
+.nyc_output
+playwright-report
+test-results
+
+# ===========================
+# Vercel
+# ===========================
+.vercel
+
+# ===========================
+# Misc
+# ===========================
+*.local
+*.pem
+*.key
+*.cert
+*.p12
+PORTFOLIO_CONTEXT_*.md
+'@
