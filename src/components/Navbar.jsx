@@ -44,13 +44,18 @@ export default function Navbar() {
           borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
           transition: "background-color 0.35s ease, backdrop-filter 0.35s ease, border-color 0.35s ease",
         }}
-        className="fixed top-2 left-15 right-0 z-50 w-full"
+        className="fixed top-0 left-0 md:left-15 right-0 z-50 w-full py-2"
       >
         <nav
           aria-label="Main navigation"
           className="mx-auto flex items-center justify-between px-5 py-4 md:px-10 lg:px-16 max-w-7xl relative"
         >
-          <a href="#" aria-label="Rajat Dhiman home" className="flex items-center group relative z-10 transition-transform duration-300 hover:scale-[1.02]">
+          {/* Logo — left */}
+          <a
+            href="#"
+            aria-label="Rajat Dhiman home"
+            className="flex items-center group relative z-10 transition-transform duration-300 hover:scale-[1.02]"
+          >
             <div className="relative w-11 h-11 rounded-full overflow-hidden border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.03)] group-hover:border-white/30 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all duration-300 bg-[var(--bg)]">
               <img
                 src="https://res.cloudinary.com/dhysr3yfi/image/upload/v1775495635/rajat_pfp_plea4r.png"
@@ -60,7 +65,11 @@ export default function Navbar() {
             </div>
           </a>
 
-          <ul className="hidden md:flex items-center gap-6 lg:gap-8 absolute left-[53%] top-1/2 -translate-x-1/2 -translate-y-1/2 z-10" role="list">
+          {/* Desktop nav links — center */}
+          <ul
+            className="hidden md:flex items-center gap-6 lg:gap-8 absolute left-[53%] top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+            role="list"
+          >
             {navLinks.map((link) => (
               <li key={link.href}>
                 <a
@@ -75,7 +84,7 @@ export default function Navbar() {
                     fontWeight: 500,
                   }}
                   onMouseEnter={(e) => { e.currentTarget.style.color = "#ffffff"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = "var(--muted)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = "rgba(255, 255, 255, 0.7)"; }}
                 >
                   {link.label}
                   <span
@@ -87,11 +96,12 @@ export default function Navbar() {
             ))}
           </ul>
 
-          <div className="hidden md:flex items-center gap-3 relative z-10 mt-3 left-12 p-y-2">
+          {/* Desktop socials — right */}
+          <div className="hidden md:flex items-center gap-3 relative z-10 mt-3 left-12 py-2">
             {[
               { href: socials.twitter, icon: <SiX size={15} />, label: "Twitter" },
               { href: socials.github, icon: <SiGithub size={15} />, label: "GitHub" },
-              { href: socials.leetcode, text: "LC", label: "LeetCode" }
+              { href: socials.leetcode, text: "LC", label: "LeetCode" },
             ].map((item, i) => (
               <a
                 key={i}
@@ -123,6 +133,7 @@ export default function Navbar() {
             ))}
           </div>
 
+          {/* Mobile hamburger — right, always visible on mobile */}
           <button
             className="flex md:hidden items-center justify-center w-9 h-9 rounded-lg transition-colors duration-200"
             style={{ color: "var(--muted)", border: "1px solid var(--border)" }}
@@ -136,6 +147,7 @@ export default function Navbar() {
         </nav>
       </motion.header>
 
+      {/* Mobile menu overlay */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -187,7 +199,7 @@ export default function Navbar() {
               className="flex items-center gap-4 pt-6"
             >
               <a
-                href="https://github.com/Rajat-dhiman01"
+                href={socials.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub profile"
