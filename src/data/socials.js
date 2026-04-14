@@ -1,7 +1,7 @@
 export const socials = {
-  email: "",                                      // fill in before Contact session
-  twitter: "https://twitter.com/YOUR_HANDLE",    // fill in your handle
+  email: "rajatdhimaan01@gmail.com",                                      // fill in before Contact session
+  twitter: "https://twitter.com/Rajat_dhiman01",    // fill in your handle
   github: "https://github.com/Rajat-dhiman01",
-  leetcode: "https://leetcode.com/YOUR_HANDLE",  // fill in your handle
+  leetcode: "https://leetcode.com/u/rajat_dhiman/",  // fill in your handle
   resume: "/resume.pdf",
 };
