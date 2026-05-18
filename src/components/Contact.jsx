@@ -179,7 +179,7 @@ export default function Contact() {
             marginBottom: "0.875rem",
           }}
         >
-          // 06 - Contact
+   
         </motion.p>
 
         <motion.h2

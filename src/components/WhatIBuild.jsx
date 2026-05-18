@@ -167,7 +167,7 @@ export default function WhatIBuild() {
             marginBottom: "0.875rem",
           }}
         >
-          // 05 - Expertise
+    
         </motion.p>
 
         <motion.h2
