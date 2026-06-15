@@ -29,4 +29,16 @@ export const projects = [
     statusUrl: "yatribaba.com",
     featured: true,
   },
+  {
+  id: 3,
+  name: "Abhinav Dhiman",
+  tagline: "Premium Artist Portfolio",
+  description:
+    "A luxury dark-theme portfolio for a live singer and performer. Built to generate booking inquiries, build artist credibility, and showcase performances with cinematic animations.",
+  tags: ["React", "Vite", "TypeScript", "Tailwind CSS", "Framer Motion", "GSAP"],
+  category: "Full-Stack",
+  liveUrl: "https://abhinav-portfolio-snowy.vercel.app/",
+  githubUrl: "#",
+  statusUrl: "abhinav-portfolio-snowy.vercel.app",
+},
 ];

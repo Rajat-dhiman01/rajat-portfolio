@@ -33,10 +33,21 @@ function YatriBabaLogo() {
     />
   );
 }
+function AbhinavPortfolioLogo() {
+  return (
+    <img
+      src="https://res.cloudinary.com/dhysr3yfi/image/upload/v1781465004/abhinachero_dbjj59.png"
+      alt=""
+      aria-hidden="true"
+      style={{ width: 26, height: 26, objectFit: "cover", borderRadius: "50%", display: "block" }}
+    />
+  );
+}
 
 function ProjectLogo({ id }) {
   if (id === 1) return <NotesMindLogo />;
   if (id === 2) return <YatriBabaLogo />;
+  if (id === 3) return <AbhinavPortfolioLogo />;
   return null;
 }
 
