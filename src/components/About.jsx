@@ -76,7 +76,7 @@ export default function About() {
                 background:   "var(--bg3)",
               }}>
                 <img
-                  src="https://res.cloudinary.com/dhysr3yfi/image/upload/v1775495635/rajat_pfp_plea4r.png"
+                  src="https://res.cloudinary.com/dhysr3yfi/image/upload/v1787567936/Rajat_dhiman_u2db6k.jpg"
                   alt="Rajat Dhiman"
                   style={{
                     width:        "100%",
