@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { SiGithub, SiX } from "@icons-pack/react-simple-icons";
 import { IconMenu2, IconX } from "@tabler/icons-react";
+import { ArrowUpRight } from "lucide-react";
 import { socials } from "@/data/socials";
 
 const navLinks = [
@@ -38,6 +39,7 @@ export default function Navbar() {
   }, [menuOpen]);
 
   const closeMenu = () => setMenuOpen(false);
+  const headerSolid = scrolled || menuOpen;
 
   return (
     <>
@@ -47,10 +49,10 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         style={{
-          backgroundColor: scrolled ? "rgba(6,6,8,0.85)" : "transparent",
-          backdropFilter: scrolled ? "blur(10px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(10px)" : "none",
-          borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
+          backgroundColor: headerSolid ? "rgba(6,6,8,0.92)" : "transparent",
+          backdropFilter: headerSolid ? "blur(10px)" : "none",
+          WebkitBackdropFilter: headerSolid ? "blur(10px)" : "none",
+          borderBottom: headerSolid ? "1px solid var(--border)" : "1px solid transparent",
           transition: "background-color 0.35s ease, border-color 0.35s ease",
           willChange: "background-color",
         }}
@@ -64,6 +66,7 @@ export default function Navbar() {
           <a
             href="#"
             aria-label="Rajat Dhiman home"
+            onClick={closeMenu}
             className="flex items-center group relative z-10 transition-transform duration-300 hover:scale-[1.02]"
           >
             <div className="relative w-11 h-11 rounded-full overflow-hidden border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.03)] group-hover:border-white/30 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all duration-300 bg-[var(--bg)]">
@@ -145,7 +148,7 @@ export default function Navbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="flex md:hidden items-center justify-center w-9 h-9 rounded-lg transition-colors duration-200"
+            className="flex md:hidden items-center justify-center w-9 h-9 rounded-lg transition-colors duration-200 relative z-10"
             style={{ color: "var(--muted)", border: "1px solid var(--border)" }}
             onClick={() => setMenuOpen((v) => !v)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -165,38 +168,63 @@ export default function Navbar() {
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"
-            initial={{ opacity: 0, y: shouldReduce ? 0 : -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: shouldReduce ? 0 : -16 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed inset-0 z-40 flex flex-col pt-24 px-6 pb-10 md:hidden"
+            onClick={closeMenu}
+            className="fixed inset-0 z-40 flex flex-col pt-32 px-6 pb-10 md:hidden"
             style={{
               backgroundColor: "rgba(6,6,8,0.97)",
               backdropFilter: "blur(20px)",
               WebkitBackdropFilter: "blur(20px)",
             }}
           >
-            <ul className="flex flex-col gap-2 flex-1" role="list">
+            <ul className="flex flex-col flex-1" role="list" onClick={(e) => e.stopPropagation()}>
               {navLinks.map((link, i) => (
                 <motion.li
                   key={link.href}
                   initial={{ opacity: 0, x: shouldReduce ? 0 : -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.07, duration: 0.3 }}
+                  transition={{ delay: i * 0.06, duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                  className="border-b"
+                  style={{ borderColor: "var(--border)" }}
                 >
                   <a
                     href={link.href}
                     onClick={closeMenu}
-                    className="block py-4 text-2xl font-bold tracking-tight border-b transition-colors duration-150"
-                    style={{
-                      fontFamily: "'Playfair Display', serif",
-                      color: "var(--muted)",
-                      borderColor: "var(--border)",
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.color = "#ffffff"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.color = "var(--muted)"; }}
+                    className="group flex items-center justify-between py-5"
                   >
-                    {link.label}
+                    <span className="flex items-baseline gap-3">
+                      <span
+                        style={{
+                          fontFamily: "'JetBrains Mono', monospace",
+                          fontSize: "0.65rem",
+                          color: "var(--muted2)",
+                          letterSpacing: "0.05em",
+                        }}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span
+                        className="transition-colors duration-200"
+                        style={{
+                          fontFamily: "'Playfair Display', serif",
+                          fontSize: "1.5rem",
+                          fontWeight: 700,
+                          letterSpacing: "-0.01em",
+                          color: "var(--muted)",
+                        }}
+                      >
+                        {link.label}
+                      </span>
+                    </span>
+                    <ArrowUpRight
+                      size={18}
+                      strokeWidth={1.75}
+                      className="transition-all duration-200 -translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+                      style={{ color: "var(--muted)" }}
+                    />
                   </a>
                 </motion.li>
               ))}
@@ -205,7 +233,8 @@ export default function Navbar() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.32, duration: 0.3 }}
+              transition={{ delay: 0.3, duration: 0.3 }}
+              onClick={(e) => e.stopPropagation()}
               className="flex items-center gap-4 pt-6"
             >
               <a
