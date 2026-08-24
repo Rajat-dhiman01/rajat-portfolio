@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { SiGithub, SiX } from "@icons-pack/react-simple-icons";
@@ -18,7 +19,15 @@ export default function Navbar() {
   const shouldReduce = useReducedMotion();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 50);
+        ticking = false;
+      });
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -39,10 +48,11 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         style={{
           backgroundColor: scrolled ? "rgba(6,6,8,0.85)" : "transparent",
-          backdropFilter: scrolled ? "blur(14px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(14px)" : "none",
+          backdropFilter: scrolled ? "blur(10px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(10px)" : "none",
           borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
-          transition: "background-color 0.35s ease, backdrop-filter 0.35s ease, border-color 0.35s ease",
+          transition: "background-color 0.35s ease, border-color 0.35s ease",
+          willChange: "background-color",
         }}
         className="fixed top-0 left-0 md:left-15 right-0 z-50 w-full py-2"
       >
@@ -50,7 +60,7 @@ export default function Navbar() {
           aria-label="Main navigation"
           className="mx-auto flex items-center justify-between px-5 py-4 md:px-10 lg:px-16 max-w-7xl relative"
         >
-          {/* Logo — left */}
+          {/* Logo -- left */}
           <a
             href="#"
             aria-label="Rajat Dhiman home"
@@ -65,7 +75,7 @@ export default function Navbar() {
             </div>
           </a>
 
-          {/* Desktop nav links — center */}
+          {/* Desktop nav links -- center */}
           <ul
             className="hidden md:flex items-center gap-6 lg:gap-8 absolute left-[53%] top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
             role="list"
@@ -96,7 +106,7 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* Desktop socials — right */}
+          {/* Desktop socials -- right */}
           <div className="hidden md:flex items-center gap-3 relative z-10 mt-3 left-12 py-2">
             {[
               { href: socials.twitter, icon: <SiX size={15} />, label: "Twitter" },
@@ -133,7 +143,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Mobile hamburger — right, always visible on mobile */}
+          {/* Mobile hamburger */}
           <button
             className="flex md:hidden items-center justify-center w-9 h-9 rounded-lg transition-colors duration-200"
             style={{ color: "var(--muted)", border: "1px solid var(--border)" }}

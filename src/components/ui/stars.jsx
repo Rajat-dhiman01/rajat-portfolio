@@ -1,57 +1,94 @@
-import React, { useMemo } from "react";
+// src/components/ui/stars.jsx
+import React, { useEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 
 export function Stars({ count = 80 }) {
+  const canvasRef = useRef(null);
   const shouldReduce = useReducedMotion();
 
-  // Multiply the incoming count by 3 to drastically increase density
-  const actualCount = count * 3;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const parent = canvas.parentElement;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-  const stars = useMemo(() => {
-    return Array.from({ length: actualCount }).map((_, i) => ({
-      id: i,
-      left: Math.random() * 100 + "%",
-      top: Math.random() * 100 + "%",
-      size: Math.random() * 1.5 + 0.5 + "px",
-      // Increased brightness: max bounds of 0.5 to 1.0
-      opacity: Math.random() * 0.5 + 0.5,
-      duration: Math.random() * 3 + 2 + "s",
-      delay: Math.random() * 5 + "s",
-    }));
-  }, [actualCount]);
+    let width = 0;
+    let height = 0;
+    let stars = [];
+    let animationId;
+
+    function generateStars() {
+      stars = Array.from({ length: count }).map(() => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 0.75 + 0.5,
+        baseOpacity: Math.random() * 0.5 + 0.5,
+        speed: Math.random() * 0.5 + 0.2,
+        phase: Math.random() * Math.PI * 2,
+      }));
+    }
+
+    function resize() {
+      width = parent.clientWidth;
+      height = parent.clientHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      generateStars();
+      if (shouldReduce) drawStatic();
+    }
+
+    function drawStatic() {
+      ctx.clearRect(0, 0, width, height);
+      stars.forEach((s) => {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${s.baseOpacity})`;
+        ctx.fill();
+      });
+    }
+
+    function animate(time) {
+      ctx.clearRect(0, 0, width, height);
+      stars.forEach((s) => {
+        const twinkle = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(time * 0.001 * s.speed + s.phase));
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${s.baseOpacity * twinkle})`;
+        ctx.fill();
+      });
+      animationId = requestAnimationFrame(animate);
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    if (!shouldReduce) {
+      animationId = requestAnimationFrame(animate);
+    }
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      if (animationId) cancelAnimationFrame(animationId);
+    };
+  }, [count, shouldReduce]);
 
   return (
-    <div
+    <canvas
+      ref={canvasRef}
       aria-hidden="true"
       style={{
         position: "absolute",
         inset: 0,
-        overflow: "hidden",
+        width: "100%",
+        height: "100%",
         pointerEvents: "none",
         zIndex: 0,
+        display: "block",
       }}
-    >
-      {stars.map((star) => (
-        <div
-          key={star.id}
-          style={{
-            position: "absolute",
-            left: star.left,
-            top: star.top,
-            width: star.size,
-            height: star.size,
-            backgroundColor: "#fff",
-            borderRadius: "50%",
-            "--star-opacity": star.opacity,
-            animation: shouldReduce
-              ? "none"
-              : `twinkle ${star.duration} ease-in-out infinite alternate`,
-            animationDelay: star.delay,
-            // Increased baseline opacity from 0.1 to 0.3
-            opacity: shouldReduce ? star.opacity : 0.3,
-          }}
-        />
-      ))}
-    </div>
+    />
   );
 }
